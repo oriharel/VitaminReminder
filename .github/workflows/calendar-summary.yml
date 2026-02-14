@@ -1,0 +1,16 @@
+name: Calendar Summary
+
+on:
+  schedule:
+    # 19:00 UTC = 21:00 Israel Standard Time (UTC+2)
+    # Note: During summer time (UTC+3) this will be 22:00
+    - cron: '0 19 * * *'
+  workflow_dispatch: # Allow manual run from GitHub UI
+
+jobs:
+  trigger_summary:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Vercel Endpoint
+        run: |
+          curl -X POST "https://vitamin-reminder.vercel.app/api/calendar-summary"

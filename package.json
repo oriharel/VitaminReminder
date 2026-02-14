@@ -5,12 +5,14 @@
     "type": "module",
     "main": "api/remind.js",
     "scripts": {
-        "test": "tsx test-notification.ts"
+        "test": "tsx test-notification.ts",
+        "test:calendar": "tsx test-calendar.ts"
     },
     "dependencies": {
         "@vercel/blob": "^2.2.0",
         "@vercel/sdk": "^1.19.1",
         "@whiskeysockets/baileys": "^7.0.0-rc.9",
+        "googleapis": "^148.0.0",
         "node-fetch": "^3.3.2"
     },
     "devDependencies": {
