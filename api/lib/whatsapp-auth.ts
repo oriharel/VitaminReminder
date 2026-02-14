@@ -68,7 +68,6 @@ export async function useVercelBlobAuthState(): Promise<{
     // --- In-memory key cache ---
     const keyCache = new Map<string, any>();   // path -> parsed value (or null for deleted)
     const dirtyKeys = new Set<string>();        // paths that need flushing
-    let credsDirty = false;
 
     // Pre-load all existing keys from Blob into cache
     const { blobs } = await list({ prefix: PREFIX });
@@ -90,11 +89,6 @@ export async function useVercelBlobAuthState(): Promise<{
     // --- Flush dirty entries to Blob ---
     async function flushToBlob(): Promise<void> {
         const promises: Promise<void>[] = [];
-
-        if (credsDirty) {
-            promises.push(writeBlob(credsPath, JSON.stringify(creds, BufferJSON.replacer)));
-            credsDirty = false;
-        }
 
         for (const path of dirtyKeys) {
             const value = keyCache.get(path);
@@ -148,7 +142,7 @@ export async function useVercelBlobAuthState(): Promise<{
     };
 
     const saveCreds = async () => {
-        credsDirty = true;
+        await writeBlob(credsPath, JSON.stringify(creds, BufferJSON.replacer));
     };
 
     return { state: { creds, keys }, saveCreds, flushToBlob };
