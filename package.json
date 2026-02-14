@@ -8,13 +8,16 @@
         "test": "tsx test-notification.ts"
     },
     "dependencies": {
+        "@vercel/blob": "^2.2.0",
         "@vercel/sdk": "^1.19.1",
+        "@whiskeysockets/baileys": "^7.0.0-rc.9",
         "node-fetch": "^3.3.2"
     },
     "devDependencies": {
         "@types/node": "^25.2.3",
         "@types/node-fetch": "^2.6.13",
         "@vercel/node": "^5.6.3",
+        "qrcode-terminal": "^0.12.0",
         "tsx": "^4.21.0",
         "typescript": "^5.9.3"
     }

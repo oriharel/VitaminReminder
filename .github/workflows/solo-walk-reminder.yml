@@ -10,8 +10,14 @@ on:
 jobs:
   trigger_reminder:
     runs-on: ubuntu-latest
+    environment: Production
     steps:
-      - name: Trigger Vercel Endpoint
+      - name: Send Telegram reminder
         run: |
           MESSAGE=$(python3 -c "import urllib.parse; print(urllib.parse.quote('🐕 Time to walk Solo! 🐕'))")
           curl -X POST "https://vitamin-reminder.vercel.app/api/remind?message=${MESSAGE}"
+      - name: Send WhatsApp reminder
+        run: |
+          curl -X POST "https://vitamin-reminder.vercel.app/api/whatsapp" \
+            -H "Content-Type: application/json" \
+            -d '{"message":"🐕 Time to walk Solo! 🐕"}'
