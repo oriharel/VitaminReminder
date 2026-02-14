@@ -32,6 +32,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         sock = makeWASocket({
             auth: state,
             printQRInTerminal: false,
+            markOnlineOnConnect: false,
         });
 
         sock.ev.on('creds.update', saveCreds);
