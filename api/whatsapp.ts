@@ -21,7 +21,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     let sock: ReturnType<typeof makeWASocket> | null = null;
 
     try {
-        const { state, saveCreds } = await useVercelBlobAuthState();
+        const { state, saveCreds, flushToBlob } = await useVercelBlobAuthState();
 
         if (!state.creds.registered) {
             return res.status(500).json({
@@ -59,8 +59,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
         await sock.sendMessage(WHATSAPP_GROUP_JID, { text: message });
 
-        // Brief delay to ensure the message is sent before disconnecting
-        await new Promise((r) => setTimeout(r, 2000));
+        // Persist any credential updates before disconnecting
+        await flushToBlob();
 
         sock.end(undefined);
         sock = null;
