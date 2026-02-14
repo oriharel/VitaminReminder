@@ -1,10 +1,12 @@
-name: Morning Reminder
+name: Vitamin Reminder
 
 on:
   schedule:
-    # 05:00 UTC = 07:00 Israel Standard Time (UTC+2)
-    # Note: Will be 08:00 during Israel Summer Time (UTC+3)
-    - cron: '0 5 * * *'
+    # 05:45 UTC = 07:45 Israel Standard Time (UTC+2)
+    # 19:30 UTC = 21:30 Israel Standard Time (UTC+2)
+    # Note: During summer time (UTC+3) these will be 08:45 and 22:30
+    - cron: '45 5 * * *'
+    - cron: '30 19 * * *'
   workflow_dispatch: # Allow manual run from GitHub UI
 
 jobs:
@@ -13,5 +15,5 @@ jobs:
     steps:
       - name: Trigger Vercel Endpoint
         run: |
-          MESSAGE=$(python3 -c "import urllib.parse; print(urllib.parse.quote('👋 Good morning! Time for your morning routine! 👋'))")
+          MESSAGE=$(python3 -c "import urllib.parse; print(urllib.parse.quote('💊 Time to take your vitamins! 💊'))")
           curl -X POST "https://vitamin-reminder.vercel.app/api/remind?message=${MESSAGE}"
