@@ -15,9 +15,10 @@ HarelAssistant is a family personal assistant that sends scheduled Telegram and 
 
 ## Architecture
 
-Two serverless endpoints:
+Three serverless endpoints:
 - `api/remind.ts` — sends messages to Telegram via the Bot API (query param, POST body, or default message)
 - `api/whatsapp.ts` — sends messages to a WhatsApp group via Baileys (query param or POST body, message required)
+- `api/calendar-summary.ts` — fetches tomorrow's events from Google Calendar and sends a formatted summary to Telegram
 
 WhatsApp auth state is stored in Vercel Blob Storage (`api/lib/whatsapp-auth.ts`). One-time pairing is done via `scripts/whatsapp-pair.ts`.
 
@@ -33,6 +34,8 @@ Required in Vercel and locally (in `.env.local`):
 - `TELEGRAM_CHAT_ID` — target chat/user ID
 - `BLOB_READ_WRITE_TOKEN` — Vercel Blob Storage access token (for WhatsApp auth persistence)
 - `WHATSAPP_GROUP_JID` — target WhatsApp group ID (e.g. `120363xxxxx@g.us`, found via pairing script)
+- `GOOGLE_SERVICE_ACCOUNT_KEY` — Google service account JSON key (for calendar access)
+- `GOOGLE_CALENDAR_ID` — comma-separated list of Google Calendar IDs to scan
 
 ## Tech Stack
 
